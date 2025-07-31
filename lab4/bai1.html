@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 4 - Bài 1</title>
+</head>
+<body>
+    <h1>ĐÂY LÀ LAB 4 - BÀI 1</h1>
+    <script>
+        let inventory = [];
+        let item1 = { name : 'laptop' , model : 'MacBook Air M1' , cost : 20000000 , quantity : 10 };
+        let item2 = { name : 'mouse' , model : 'Razer deathAdder' , cost : 200000 , quantity : 100 };
+        let item3 = { name : 'keyboard' , model : 'Keychron K6' , cost : 900000 , quantity : 50 };
+
+        inventory.push(item1);
+        inventory.push(item2);
+        inventory.push(item3);
+
+        console.log(inventory);
+
+        console.log(inventory[2].quantity)
+
+        let item4 = { name: "Monitor", model: "LG UltraFine", cost: 3000000, quantity: 20 };
+        inventory.push(item4);
+        console.log(inventory[3].name);
+    </script>
+</body>
+</html>

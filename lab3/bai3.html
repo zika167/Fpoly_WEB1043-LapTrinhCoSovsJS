@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Máy Tính Đơn Giản</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        #calculator {
+            display: inline-grid;
+            grid-template-columns: repeat(4, 60px);
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 15px;
+            font-size: 18px;
+            cursor: pointer;
+            border: 1px solid #999;
+            border-radius: 4px;
+            background: linear-gradient(#eee, #ccc);
+            box-shadow: 0 2px #999;
+        }
+
+        .btn:active {
+            background: linear-gradient(#ccc, #aaa);
+            box-shadow: 0 1px #666;
+            transform: translateY(1px);
+        }
+
+        #display {
+            grid-column: span 4;
+            padding: 10px;
+            font-size: 20px;
+            text-align: right;
+            border: 1px solid #999;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>MÁY TÍNH</h2>
+    <div id="calculator">
+        <div id="display">0</div>
+        <button class="btn" onclick="toanHang(7)">7</button>
+        <button class="btn" onclick="toanHang(8)">8</button>
+        <button class="btn" onclick="toanHang(9)">9</button>
+        <button class="btn" onclick="toanTu('+')">+</button>
+        <button class="btn" onclick="toanHang(4)">4</button>
+        <button class="btn" onclick="toanHang(5)">5</button>
+        <button class="btn" onclick="toanHang(6)">6</button>
+        <button class="btn" onclick="toanTu('-')">-</button>
+        <button class="btn" onclick="toanHang(1)">1</button>
+        <button class="btn" onclick="toanHang(2)">2</button>
+        <button class="btn" onclick="toanHang(3)">3</button>
+        <button class="btn" onclick="toanTu('*')">x</button>
+        <button class="btn" onclick="toanHang(0)">0</button>
+        <button class="btn" onclick="lamLai()">C</button>
+        <button class="btn" onclick="thucHien()">=</button>
+        <button class="btn" onclick="toanTu('/')">:</button>
+    </div>
+
+    <script src="bai3.js"></script>
+</body>
+</html>

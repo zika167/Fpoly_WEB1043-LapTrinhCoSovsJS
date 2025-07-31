@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 4 - Bài 2</title>
+</head>
+<body>
+    <h1>ĐÂY LÀ LAB 4 - BÀI 2</h1>
+
+    <p id="demo"></p>
+    <button onclick="sv.hienThi();">Hiển thị</button>
+
+    <script>
+        let sv = {};
+        
+        sv.hoTen = prompt("Họ tên sinh viên: ");
+        sv.diem = parseFloat(prompt("Điểm của sinh viên: "));
+        
+        sv.hienThi = function(){
+            let hocLuc = "";
+            
+            if (this.diem >= 8) {
+                hocLuc = "Giỏi";
+            } else if (this.diem >= 6.5) {
+                hocLuc = "Khá";
+            } else if (this.diem >= 5) {
+                hocLuc = "Trung bình";
+            } else {
+                hocLuc = "Yếu";
+            }
+
+            document.getElementById("demo").innerHTML =
+            "<h3>Họ và tên: " + sv.hoTen + "</h3>" +
+            "<h3>Điểm TB: " + sv.diem + "</h3>" +
+            "<h3>Học lực: " + hocLuc + "</h3>";
+        }
+
+        
+    </script>
+</body>
+</html>

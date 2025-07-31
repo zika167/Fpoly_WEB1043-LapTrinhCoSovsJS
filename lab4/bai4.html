@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 4 - Bài 4</title>
+</head>
+<body>
+    <h1>ĐÂY LÀ LAB 4 - BÀI 4</h1>
+    <button onclick="moCuaSo()">Mở cửa sổ mới</button>
+    <button onclick="dongCuaSo()">Đóng cửa sổ mới</button>
+    <button onclick="kiemTraCuaSo()">Kiểm tra cửa sổ mới đã đóng chưa</button>
+
+    <script>
+        let popup = null;
+
+        function moCuaSo() {
+            let isIE = navigator.userAgent.includes('MSIE') || navigator.userAgent.includes('Trident');
+            let width = isIE ? 100 : 150;
+            let height = isIE ? 100 : 150;
+
+            popup = window.open(
+                "/lab3/bai4.html",         
+                "_blank",   // Mở trong tab/cửa sổ mới
+                `width=${width},height=${height},toolbar=yes,menubar=yes`
+            );
+        }
+
+        function dongCuaSo() {
+            if ( popup && !popup.closed) {
+                popup.close();
+            } else alert("Cửa sổ đã đóng hoặc chưa được mở.")
+        }
+
+        function kiemTraCuaSo() {
+            if (popup == null) {
+                alert("Cửa sổ chưa từng được mở.");
+            } else if (popup.closed) {
+                alert("Cửa sổ mới đã bị đóng.");
+            } else {
+                alert("Cửa sổ mới vẫn đang mở.");
+            }
+        }
+
+        console.log(moCuaSo())
+    </script>
+</body>
+</html>

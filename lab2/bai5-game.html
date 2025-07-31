@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bai5-game</title>
+</head>
+<body>
+    <h1>ĐÂY LÀ BÀI 5</h1>
+    <script>
+        var x = 10 + Math.round(5 * Math.random());
+        console.log(x);
+
+        while(true) {
+            var a = prompt("Số bạn đoán là: ");
+            a = Number(a);
+
+            if (isNaN(a)) {
+                alert("Vui lòng nhập đúng định dạng là số!");
+                continue;
+            }
+
+            if (a == x) {
+                alert("Chúc mừng, bạn đã đoán đúng!");
+                break;
+            } else if (a > x) {
+                alert("Giá trị của bạn lớn hơn số bí mật");
+            } else {
+                alert("Giá trị của bạn nhỏ hơn số bí mật");
+            }
+        }
+    </script>
+</body>
+</html>

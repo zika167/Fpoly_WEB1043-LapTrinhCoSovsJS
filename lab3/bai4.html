@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Rock Paper Scissors Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        .btn {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            border: 1px solid #999;
+            border-radius: 4px;
+            background: linear-gradient(#eee, #ccc);
+            box-shadow: 0 2px #999;
+        }
+        .btn:active {
+            background: linear-gradient(#ccc, #aaa);
+            box-shadow: 0 1px #666;
+            transform: translateY(1px);
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h2>Rock Paper Scissors Game</h2>
+
+    <input type="button" class="btn" value="Rock" onclick="getValue(0)" />
+    <input type="button" class="btn" value="Paper" onclick="getValue(1)" />
+    <input type="button" class="btn" value="Scissors" onclick="getValue(2)" />
+
+    <div id="result">Hãy chọn để chơi!</div>
+
+    <script>
+        let arr = ['rock', 'paper', 'scissors'];
+
+        function getValue(choice) {
+            let random = Math.floor(Math.random() * 3);
+            let clientChoice = arr[choice];
+            let serverChoice = arr[random];
+            let message ='', subMess = '';
+
+            if ( choice === random ) {
+                message = "Bạn chọn: " + clientChoice + "<br>Máy chọn: " + serverChoice + "<br>Kết quả: Hòa!";
+            } else {
+                switch(choice) {
+                    case 0: // Rock
+                        subMess = (random === 2) ? "Bạn Thắng!" : "Bạn Thua!";
+                        break;
+                    case 1: // Paper
+                        subMess = (random === 0) ? "Bạn Thắng!" : "Bạn Thua!";
+                        break;
+                    case 2: // Scissors
+                        subMess = (random === 1) ? "Bạn Thắng!" : "Bạn Thua!";
+                        break;
+                }
+                message = "Bạn chọn: " + clientChoice + "<br>Máy chọn: " + serverChoice + "<br>Kết quả: " + subMess;
+            }
+            document.getElementById('result').innerHTML = message;
+        }
+    </script>
+</body>
+</html>

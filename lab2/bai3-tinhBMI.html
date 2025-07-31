@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bai3-tinhBMI</title>
+</head>
+<body>
+    <h1>ĐÂY LÀ BÀI 3</h1>
+    <script>
+        let trongluong, ccao;
+
+        while (true) {
+            trongluong = prompt('Nhập trọng lượng cơ thể của bạn (kg): ');
+            if(isNaN(trongluong)) {
+                alert('Xin hãy nhập đúng định dạng là số!');
+                continue
+            }
+            ccao =prompt('Nhập chiều cao của bạn (mét): ');
+            if(isNaN(ccao)) {
+                alert('Xin hãy nhập đúng định dạng là số!');
+                continue
+            }
+            break
+        }
+
+        let bmi = trongluong / Math.pow(ccao,2);
+
+        if(bmi<18.5) alert(`Chỉ số BMI của bạn là ${bmi.toFixed(2)} >>> thiếu cân`)
+        else if(bmi >=18.5 && bmi<25) alert(`Chỉ số BMI của bạn là ${bmi.toFixed(2)} >>> bình thường`)
+        else if(bmi>=25 && bmi<30) alert(`Chỉ số BMI của bạn là ${bmi.toFixed(2)} >>> thừa cân`)
+        else alert(`Chỉ số BMI của bạn là ${bmi.toFixed(2)} >>> béo phì`)
+    </script>
+</body>
+</html>

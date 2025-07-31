@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bai2-doidonvi</title>
+</head>
+<body>
+    <h1>ĐÂY LÀ BÀI 2</h1>
+    <script>
+        while (true) {
+            let a = prompt('Nhập diện tích muốn quy đổi ( mét vuông ): ');
+            if (isNaN(a)) {
+                alert('Xin hãy nhập đúng định dạng là số!');
+                continue;
+            }
+
+            document.writeln(`Quy đổi ra sào - mẫu ở Bắc Bộ: ${(a/360).toFixed(2)} sào ~ ${(a/3600).toFixed(2)} mẫu \n`);
+            document.writeln(`Quy đổi ra sào - mẫu ở Nam Bộ: ${(a/1000).toFixed(2)} sào ~ ${(a/10000).toFixed(2)} mẫu \n`);
+            document.writeln(`Quy đổi ra hecta: ${a / 10000} hecta`);
+            break;
+        }
+        
+    </script>
+</body>
+</html>

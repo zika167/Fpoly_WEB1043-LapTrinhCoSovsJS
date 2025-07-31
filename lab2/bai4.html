@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bai4</title>
+</head>
+<body>
+    <h1>ĐÂY LÀ BÀI 4</h1>
+
+    <p>shift() removes the first item of an array:</p>
+    <p id="shift"></p>
+
+    <p>pop() removes the last item of an array:</p>
+    <p id="pop"></p>
+
+    <p>unshift() adds new items to the beginning of an array:</p>
+    <p id="unshift"></p>
+
+    <p>The splice() method adds or removes array elements.</p>
+    <p id="splice"></p>
+
+    <p>The toSpliced() method returns an array with added or removed array elements.</p>
+    <p id="toSpliced"></p>
+
+    <p>push() adds new items to the end of an array:</p>
+    <p id="push"></p>
+    <script>
+        const theList = ['Lauren', 'Kevin',true,35,null,undefined,['one', 'two']];
+        theList.shift();
+        document.getElementById("shift").innerHTML = theList;
+        theList.pop();
+        document.getElementById("pop").innerHTML = theList;
+        theList.unshift('FIRST');
+        document.getElementById("unshift").innerHTML = theList;
+        theList.splice(4,0,'hello world');
+        document.getElementById("splice").innerHTML = theList;
+        let newList = theList.toSpliced(3,0,'middle');
+        document.getElementById("toSpliced").innerHTML = newList;
+        theList.push('LAST');
+        document.getElementById("push").innerHTML = theList;
+    </script>
+</body>
+</html>

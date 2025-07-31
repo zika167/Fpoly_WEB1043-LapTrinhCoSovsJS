@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trang Bán Hàng</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .header h1 {
+      font-size: 32px;
+      color: #333;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-title {
+      font-size: 24px;
+      font-weight: bold;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 25px;
+      color: #333;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 2px;
+    }
+
+    .products-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 40px;
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .products-table th {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 15px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .products-table td {
+      padding: 15px;
+      text-align: center;
+      border-bottom: 1px solid #f0f0f0;
+      transition: all 0.3s ease;
+    }
+
+    .products-table tr:hover {
+      background-color: #f8f9ff;
+      transform: scale(1.01);
+    }
+
+    .product-name {
+      font-weight: 600;
+      color: #333;
+    }
+
+    .product-price {
+      font-weight: bold;
+      color: #667eea;
+      font-size: 18px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-remove {
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+      box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+    }
+
+    .btn-remove:hover {
+      box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+    }
+
+    .divider {
+      margin: 40px 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #667eea, transparent);
+      border: none;
+      border-radius: 2px;
+    }
+
+    .cart-section {
+      background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(168, 237, 234, 0.3);
+    }
+
+    .cart-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 25px;
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .cart-table th {
+      background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+      color: #333;
+      padding: 15px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .cart-table td {
+      padding: 15px;
+      text-align: center;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .total-section {
+      text-align: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    }
+
+    .total-label {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .total-amount {
+      font-size: 32px;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .empty-cart {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+      font-style: italic;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+        margin: 10px;
+      }
+      
+      .header h1 {
+        font-size: 24px;
+      }
+      
+      .section-title {
+        font-size: 20px;
+      }
+      
+      .products-table, .cart-table {
+        font-size: 14px;
+      }
+      
+      .products-table td, .cart-table td {
+        padding: 10px 5px;
+      }
+      
+      .btn {
+        padding: 8px 15px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🛍️ Cửa hàng điện thoại</h1>
+    </div>
+
+    <h2 class="section-title">Danh mục hàng hóa</h2>
+    <table class="products-table">
+      <thead>
+        <tr>
+          <th>Sản phẩm</th>
+          <th>Giá</th>
+          <th>Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="product-name">📱 iPhone 9</td>
+          <td class="product-price">$2,700</td>
+          <td><button class="btn" onclick="them(this)">➕ Thêm</button></td>
+        </tr>
+        <tr>
+          <td class="product-name">📱 Samsung Star</td>
+          <td class="product-price">$1,500</td>
+          <td><button class="btn" onclick="them(this)">➕ Thêm</button></td>
+        </tr>
+        <tr>
+          <td class="product-name">📱 Nokia 2020</td>
+          <td class="product-price">$1,200</td>
+          <td><button class="btn" onclick="them(this)">➕ Thêm</button></td>
+        </tr>
+        <tr>
+          <td class="product-name">📱 Sony Xperia</td>
+          <td class="product-price">$1,700</td>
+          <td><button class="btn" onclick="them(this)">➕ Thêm</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr class="divider">
+
+    <div class="cart-section">
+      <h2 class="section-title">Giỏ hàng của bạn</h2>
+      <table class="cart-table" id="cart">
+        <thead>
+          <tr>
+            <th>Sản phẩm</th>
+            <th>Giá</th>
+            <th>Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="empty-cart">
+            <td colspan="3">Giỏ hàng trống - Hãy thêm sản phẩm!</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="total-section">
+      <div class="total-label">Tổng số tiền:</div>
+      <div class="total-amount">$<span id="tong">0</span></div>
+    </div>
+  </div>
+
+  <script>
+    function them(button) {
+      // Xóa dòng "Giỏ hàng trống" nếu có
+      var cart = document.getElementById("cart");
+      var emptyRow = cart.querySelector('.empty-cart');
+      if (emptyRow) {
+        emptyRow.remove();
+      }
+
+      // clone dòng <tr> chứa button được click
+      var row = button.parentElement.parentElement.cloneNode(true);
+
+      // sửa lại nút từ Thêm → Xóa
+      var btnXoa = row.getElementsByTagName("button")[0];
+      btnXoa.innerText = "❌ Xóa";
+      btnXoa.className = "btn btn-remove";
+      btnXoa.setAttribute('onclick', 'xoa(this)');
+
+      // thêm vào giỏ hàng
+      cart.appendChild(row);
+
+      // tính tổng
+      tinhTong();
+    }
+
+    function xoa(button) {
+      var row = button.parentElement.parentElement;
+      document.getElementById("cart").removeChild(row);
+      
+      // Kiểm tra nếu giỏ hàng trống
+      var cart = document.getElementById("cart");
+      var rows = cart.getElementsByTagName("tr");
+      if (rows.length <= 1) { // Chỉ còn header
+        var tbody = cart.querySelector('tbody');
+        var emptyRow = document.createElement('tr');
+        emptyRow.className = 'empty-cart';
+        emptyRow.innerHTML = '<td colspan="3">Giỏ hàng trống - Hãy thêm sản phẩm!</td>';
+        tbody.appendChild(emptyRow);
+      }
+      
+      tinhTong();
+    }
+
+    function tinhTong() {
+      var cart = document.getElementById("cart");
+      var rows = cart.getElementsByTagName("tr");
+      var tong = 0;
+
+      for (var i = 1; i < rows.length; i++) { // Bỏ qua header
+        var cells = rows[i].getElementsByTagName("td");
+        if (cells.length > 1) {
+          var price = parseFloat(cells[1].innerText.replace('$', '').replace(',', ''));
+          if (!isNaN(price)) {
+            tong += price;
+          }
+        }
+      }
+
+      document.getElementById("tong").innerText = tong.toLocaleString();
+    }
+  </script>
+</body>
+</html>

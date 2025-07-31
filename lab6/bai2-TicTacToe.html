@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>TICTACTOE GAME</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      background: rgba(255,255,255,0.95);
+      border-radius: 24px;
+      box-shadow: 0 8px 32px rgba(102,126,234,0.15);
+      padding: 40px 30px 30px 30px;
+      margin-top: 40px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    h2 {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 30px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    table {
+      margin: 0 auto;
+      border-spacing: 10px;
+    }
+    td {
+      padding: 0;
+    }
+    button {
+      width: 90px;
+      height: 90px;
+      font-size: 2.5rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #f8f9ff 0%, #e8f2ff 100%);
+      color: #333;
+      box-shadow: 0 4px 16px rgba(102,126,234,0.10);
+      cursor: pointer;
+      transition: 
+        background 0.3s, 
+        box-shadow 0.3s, 
+        transform 0.1s;
+      outline: none;
+    }
+    button:enabled:hover {
+      background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+      box-shadow: 0 8px 24px rgba(102,126,234,0.18);
+      transform: scale(1.07);
+    }
+    button[disabled] {
+      opacity: 0.7;
+      cursor: not-allowed;
+      box-shadow: none;
+      color: #222;
+    }
+    .x-mark {
+      color: #007bff;
+      text-shadow: 0 2px 8px #667eea33;
+    }
+    .o-mark {
+      color: #f7b731;
+      text-shadow: 0 2px 8px #fed6e333;
+    }
+    .restart-btn {
+      margin-top: 30px;
+      padding: 12px 30px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(78,205,196,0.3);
+    }
+    .restart-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(78,205,196,0.4);
+    }
+    .restart-btn:active {
+      transform: translateY(0);
+    }
+    .status {
+      margin: 20px 0;
+      padding: 15px;
+      border-radius: 15px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      background: linear-gradient(135deg, #f8f9ff 0%, #e8f2ff 100%);
+      border: 1px solid rgba(102,126,234,0.1);
+    }
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px 5px 15px 5px;
+        max-width: 98vw;
+      }
+      button {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>TICTACTOE GAME</h2>
+    <div class="status" id="status">Lượt của: <span style="color: #007bff;">X</span></div>
+    <table>
+      <tr>
+        <td><button onclick="mark(0)"></button></td>
+        <td><button onclick="mark(1)"></button></td>
+        <td><button onclick="mark(2)"></button></td>
+      </tr>
+      <tr>
+        <td><button onclick="mark(3)"></button></td>
+        <td><button onclick="mark(4)"></button></td>
+        <td><button onclick="mark(5)"></button></td>
+      </tr>
+      <tr>
+        <td><button onclick="mark(6)"></button></td>
+        <td><button onclick="mark(7)"></button></td>
+        <td><button onclick="mark(8)"></button></td>
+      </tr>
+    </table>
+    <button class="restart-btn" onclick="restartGame()">�� Chơi lại</button>
+  </div>
+  <script>
+    var flag = true;  // true = X, false = O
+    var count = 0;    // đếm số lần click
+    var gameBoard = ['', '', '', '', '', '', '', '', '']; // Lưu trạng thái bàn cờ
+    var gameEnded = false;
+
+    function mark(index) {
+      if (gameEnded || gameBoard[index] !== '') return; // Kiểm tra nếu game đã kết thúc hoặc ô đã được đánh
+
+      var buttons = document.getElementsByTagName("button");
+      var button = buttons[index];
+
+      // Cập nhật bàn cờ
+      gameBoard[index] = flag ? 'X' : 'O';
+
+      // Gán nhãn và màu nền tương ứng
+      button.innerHTML = flag ? "<span class='x-mark'>X</span>" : "<span class='o-mark'>O</span>";
+      button.style.background = flag 
+        ? 'linear-gradient(135deg, #a8edea 0%, #67e8f9 100%)'
+        : 'linear-gradient(135deg, #fed6e3 0%, #f7b731 100%)';
+
+      // Vô hiệu hóa nút sau khi đã bấm
+      button.setAttribute("disabled", "true");
+
+      // Kiểm tra thắng
+      if (checkWin()) {
+        gameEnded = true;
+        setTimeout(function() {
+          alert((flag ? 'X' : 'O') + " thắng!");
+        }, 100);
+        return;
+      }
+
+      // Kiểm tra hòa
+      count++;
+      if (count == 9) {
+        gameEnded = true;
+        setTimeout(function() {
+          alert("Hòa!");
+        }, 100);
+        return;
+      }
+
+      // Đảo lượt
+      flag = !flag;
+      updateStatus();
+    }
+
+    function checkWin() {
+      // Các đường thắng có thể
+      var winConditions = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], // Hàng ngang
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], // Hàng dọc
+        [0, 4, 8], [2, 4, 6]             // Đường chéo
+      ];
+
+      var currentPlayer = flag ? 'X' : 'O';
+
+      for (var i = 0; i < winConditions.length; i++) {
+        var [a, b, c] = winConditions[i];
+        if (gameBoard[a] === currentPlayer && 
+            gameBoard[b] === currentPlayer && 
+            gameBoard[c] === currentPlayer) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    function updateStatus() {
+      var statusEl = document.getElementById('status');
+      statusEl.innerHTML = 'Lượt của: <span style="color: ' + (flag ? '#007bff' : '#f7b731') + ';">' + (flag ? 'X' : 'O') + '</span>';
+    }
+
+    function restartGame() {
+      // Reset các biến
+      flag = true;
+      count = 0;
+      gameBoard = ['', '', '', '', '', '', '', '', ''];
+      gameEnded = false;
+
+      // Reset tất cả buttons
+      var buttons = document.getElementsByTagName("button");
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].innerHTML = '';
+        buttons[i].removeAttribute("disabled");
+        buttons[i].style.background = 'linear-gradient(135deg, #f8f9ff 0%, #e8f2ff 100%)';
+      }
+
+      // Cập nhật status
+      updateStatus();
+    }
+  </script>
+</body>
+</html>

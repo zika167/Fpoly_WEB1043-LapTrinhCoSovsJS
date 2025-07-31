@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo Image Rollover & Slideshow</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .header h1 {
+      font-size: 36px;
+      color: #333;
+      margin-bottom: 15px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section {
+      margin-bottom: 60px;
+      padding: 30px;
+      background: linear-gradient(135deg, #f8f9ff 0%, #e8f2ff 100%);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .section h2 {
+      font-size: 28px;
+      color: #333;
+      margin-bottom: 25px;
+      text-align: center;
+      position: relative;
+    }
+
+    .section h2::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 2px;
+    }
+
+    .rollover-section {
+      text-align: center;
+    }
+
+    .rollover-description {
+      margin-bottom: 30px;
+      color: #666;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .rollover-images {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .rollover-img {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 15px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+    }
+
+    .rollover-img:hover {
+      transform: translateY(-10px) scale(1.05);
+      filter: brightness(1.2) contrast(1.1);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      outline: 4px solid #667eea;
+    }
+
+    /* Slideshow */
+    .slideshow-section {
+      text-align: center;
+    }
+
+    .slideshow-container {
+      position: relative;
+      margin: 30px 0;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      background: white;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #slide-img {
+      width: 100%;
+      height: 350px;
+      object-fit: cover;
+      transition: all 0.5s ease;
+      border-radius: 20px;
+    }
+
+    .image-counter {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 10px 15px;
+      border-radius: 25px;
+      font-size: 14px;
+      font-weight: 600;
+      backdrop-filter: blur(10px);
+    }
+
+    .controls {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .controls button {
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: 600;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+      min-width: 100px;
+    }
+
+    .controls button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    .controls button:active {
+      transform: translateY(0);
+    }
+
+    .controls button:first-child {
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+      box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+    }
+
+    .controls button:first-child:hover {
+      box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+    }
+
+    .controls button:last-child {
+      background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+      box-shadow: 0 5px 15px rgba(78, 205, 196, 0.3);
+    }
+
+    .controls button:last-child:hover {
+      box-shadow: 0 8px 25px rgba(78, 205, 196, 0.4);
+    }
+
+    .navigation-dots {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ddd;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .dot.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      transform: scale(1.2);
+    }
+
+    .description {
+      margin-top: 30px;
+      padding: 25px;
+      background: linear-gradient(135deg, #fff 0%, #f8f9ff 100%);
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(102, 126, 234, 0.1);
+    }
+
+    .description h3 {
+      color: #333;
+      margin-bottom: 15px;
+      font-size: 20px;
+      text-align: center;
+    }
+
+    .description p {
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .description p:last-child {
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 25px;
+        margin: 10px;
+      }
+      
+      .header h1 {
+        font-size: 28px;
+      }
+      
+      .section {
+        padding: 20px;
+      }
+      
+      .section h2 {
+        font-size: 24px;
+      }
+      
+      .rollover-images {
+        gap: 20px;
+      }
+      
+      .rollover-img {
+        width: 150px;
+        height: 150px;
+      }
+      
+      #slide-img {
+        height: 250px;
+      }
+      
+      .controls {
+        gap: 10px;
+      }
+      
+      .controls button {
+        padding: 10px 20px;
+        font-size: 14px;
+        min-width: 80px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <h1>🎨 Demo Image Effects</h1>
+    </div>
+
+    <div class="section rollover-section">
+      <h2>🎈 Image Rollover Effect</h2>
+      <div class="rollover-description">
+        <p>Hình 1: bình thường → Hình 2: khi đưa chuột lên</p>
+        <p>Di chuyển chuột vào hình ảnh để xem hiệu ứng!</p>
+      </div>
+      <div class="rollover-images">
+        <img src="img/meme-hinhnguoi-doiTinhToanCaiDa.jpeg" class="rollover-img" alt="Bé 1">
+        <img src="img/meme-hinhNguoi-mayVuaNoiGi.jpeg" class="rollover-img" alt="Bé 2">
+      </div>
+    </div>
+
+    <div class="section slideshow-section">
+      <h2>🖼️ Slideshow Hình Ảnh</h2>
+      <div class="slideshow-container">
+        <img id="slide-img" src="img/meme-meo-cuoiDienDao.jpeg" alt="Slideshow">
+        <div class="image-counter">
+          <span id="currentImage">1</span> / <span id="totalImages">5</span>
+        </div>
+      </div>
+      <div class="controls">
+        <button onclick="first()">⏮️ First</button>
+        <button onclick="prev()">⬅️ Prev</button>
+        <button onclick="next()">Next ➡️</button>
+        <button onclick="last()">Last ⏭️</button>
+      </div>
+      <div class="navigation-dots" id="dots"></div>
+    </div>
+
+    <div class="description">
+      <h3>📋 Hướng dẫn sử dụng</h3>
+      <p><strong>Rollover Effect:</strong> Di chuyển chuột vào hình ảnh để xem hiệu ứng hover</p>
+      <p><strong>Slideshow:</strong> Sử dụng các nút điều khiển để duyệt qua các hình ảnh</p>
+    </div>
+  </div>
+
+  <script>
+    // === SLIDESHOW LOGIC ===
+    var images = [
+      "img/meme-meo-dau3Cham.jpeg",
+      "img/meme-zoey-thamAn.jpeg",
+      "img/meme-zoey-tucGian.jpeg",
+      "img/meme-meo-cuoiDienDao.jpeg",
+      "img/meme-anhDaDen-chamhoi.jpeg"
+    ];
+
+    var index = 0;
+
+    // Tạo navigation dots
+    const dotsContainer = document.getElementById('dots');
+    images.forEach((_, i) => {
+      const dot = document.createElement('div');
+      dot.className = 'dot';
+      dot.onclick = () => {
+        index = i;
+        showImage();
+      };
+      dotsContainer.appendChild(dot);
+    });
+
+    function showImage() {
+      document.getElementById("slide-img").src = images[index];
+      document.getElementById("currentImage").textContent = index + 1;
+      
+      // Cập nhật dots
+      const dots = document.querySelectorAll('.dot');
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+      });
+    }
+
+    function first() {
+      index = 0;
+      showImage();
+    }
+
+    function last() {
+      index = images.length - 1;
+      showImage();
+    }
+
+    function next() {
+      index++;
+      if (index >= images.length) index = 0;
+      showImage();
+    }
+
+    function prev() {
+      index--;
+      if (index < 0) index = images.length - 1;
+      showImage();
+    }
+
+    // Khởi tạo
+    document.getElementById("totalImages").textContent = images.length;
+    showImage();
+  </script>
+
+</body>
+</html>

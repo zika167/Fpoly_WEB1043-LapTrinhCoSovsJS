@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bai1</title>
+</head>
+<body>
+    <h1>ĐÂY LÀ BÀI 1</h1>
+    <script>
+        var a = 1;
+        console.log(a);
+        if ( true )  {
+            var a = 2;
+            console.log(a);
+        }
+        console.log(a);
+        /*
+        while(true) {
+            var a = prompt("Toán hạng a: ");
+            a = Number(a);
+            if (isNaN(a)) {
+                alert("Vui lòng nhập đúng định dạng là số!");
+                continue;
+            }
+            var b = prompt("Toán hạng b: ");
+            b = Number(b);
+            if (isNaN(b)) {
+                alert("Vui lòng nhập đúng định dạng là số!");
+                continue;
+            }
+            let operatorsArr = ['+','-','*','/'];
+            let found = false;
+            var o = prompt("Toán tử ( + , - , * , / ): ");
+            for ( let i = 0; i < operatorsArr.length; i++ ) {
+                if(operatorsArr[i] === o) {
+                    found = true;
+                    break;
+                }
+            }
+            
+            if (!found) {
+                alert("Vui lòng nhập 1 trong các loại toán tử!");
+            }
+
+            switch(o){
+                case '+':
+                    var kq = a + b;
+                    alert('Tổng: ' + kq);
+                    break;
+                case '-':
+                    var kq = a - b;
+                    alert('Hiệu: ' + kq);
+                    break;
+                case '*':
+                    var kq = a * b;
+                    alert('Tích: ' + kq);
+                    break;
+                case '/':
+                    if (b != 0) {
+                        var kq = a / b;
+                        alert('Thương: ' + kq);
+                    } else alert('Không thể chia tử cho mẫu = 0');
+                    break;
+            }
+            var tiepTuc = confirm("Bạn có muốn tính tiếp không?");
+            if (!tiepTuc) {
+                break;
+            }
+        } */
+    </script>
+</body>
+</html>

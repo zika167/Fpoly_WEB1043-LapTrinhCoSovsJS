@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Lab 6 - Bài 1 - Collapsible accordion component</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                min-height: 100vh;
+                padding: 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .container {
+                max-width: 800px;
+                width: 100%;
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                border-radius: 20px;
+                padding: 40px;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
+
+            .header {
+                text-align: center;
+                margin-bottom: 40px;
+            }
+
+            .header h1 {
+                font-size: 32px;
+                color: #333;
+                margin-bottom: 10px;
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            .accordion-item {
+                margin-bottom: 15px;
+                border-radius: 15px;
+                overflow: hidden;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease;
+            }
+
+            .accordion-item:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            }
+
+            .title {
+                font-size: 18px;
+                font-weight: 600;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 20px 25px;
+                cursor: pointer;
+                position: relative;
+                transition: all 0.3s ease;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .title:hover {
+                background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+                transform: scale(1.02);
+            }
+
+            .title::after {
+                content: '▼';
+                font-size: 14px;
+                transition: transform 0.3s ease;
+            }
+
+            .title.active::after {
+                transform: rotate(180deg);
+            }
+
+            .myText {
+                display: none;
+                background: linear-gradient(135deg, #f8f9ff 0%, #e8f2ff 100%);
+                padding: 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                line-height: 1.6;
+                color: #333;
+            }
+
+            .myText.active {
+                display: block;
+                padding: 25px;
+                max-height: 500px;
+                border-top: 1px solid rgba(102, 126, 234, 0.1);
+            }
+
+            .myText p {
+                margin-bottom: 15px;
+                font-size: 16px;
+            }
+
+            .myText p:last-child {
+                margin-bottom: 0;
+            }
+
+            @media (max-width: 768px) {
+                .container {
+                    padding: 25px;
+                    margin: 10px;
+                }
+                
+                .header h1 {
+                    font-size: 24px;
+                }
+                
+                .title {
+                    font-size: 16px;
+                    padding: 15px 20px;
+                }
+                
+                .myText.active {
+                    padding: 20px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>📚 Accordion Component</h1>
+            </div>
+            
+            <div class="accordion-item">
+                <div class="title">Title #1 - NGHIÊN CỨU VẤN ĐỀ BIẾN ĐỔI KHÍ HẬU</div>
+                <div class="myText">
+                    <p>Biến đổi khí hậu (BĐKH) cùng với suy thoái tài nguyên, ô nhiễm môi trường
+                    là những thách thức lớn nhất của nhân loại trong thế kỷ 21. BĐKH sẽ làm thay đổi
+                    toàn diện, sâu sắc các hệ sinh thái tự nhiên, kinh tế - xã hội (KT-XH) và quá trình
+                    phát triển, đe dọa nghiêm trọng đối với an ninh môi trường, năng lượng, nguồn
+                    nước, lượng thực trên phạm vi toàn cầu.</p>
+                    <p>Tất cả các quốc gia đều bị ảnh hưởng,
+                    những đối tượng nhạy cảm nhất đối với BĐKH bao gồm các quốc gia và các tầng
+                    lớp dân nghèo, sẽ phải hứng chịu sớm nhất và nặng nề nhất, mặc dù họ chỉ góp
+                    phần nhỏ nhất trong việc tạo ra các nguyên nhân gây nên BĐKH.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="title">Title #2 - THÓI QUEN SỬ DỤNG THỨC ĂN NHANH</div>
+                <div class="myText">
+                    <p>Nghiên cứu về thức ăn nhanh (fast food) tập trung vào nhiều khía cạnh, 
+                    bao gồm tác động sức khỏe, xu hướng tiêu dùng, và vai trò của nó trong đời sống hiện đại.</p>
+                    <p>Thức ăn nhanh đã trở thành một phần không thể thiếu trong cuộc sống hiện đại, 
+                    đặc biệt là ở các thành phố lớn nơi nhịp sống nhanh và bận rộn.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="title">Title #3 - CÔNG NGHỆ VÀ TƯƠNG LAI</div>
+                <div class="myText">
+                    <p>Công nghệ đang phát triển với tốc độ chóng mặt, mang lại những cơ hội và thách thức mới cho nhân loại.</p>
+                    <p>Từ trí tuệ nhân tạo đến công nghệ blockchain, từ thực tế ảo đến Internet of Things, 
+                    chúng ta đang chứng kiến một cuộc cách mạng công nghệ chưa từng có trong lịch sử.</p>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const menus = document.querySelectorAll(".title");
+            const openText = document.querySelectorAll(".myText");
+
+            menus.forEach((el) => {
+                el.addEventListener("click", () => {
+                    remover();
+                    el.classList.toggle("active");
+                    el.nextElementSibling.classList.toggle("active");
+                });
+            });
+
+            function remover() {
+                openText.forEach((ele) => {
+                    ele.classList.remove("active");
+                });
+                menus.forEach((menu) => {
+                    menu.classList.remove("active");
+                });
+            }
+        </script>
+    </body>
+</html>
