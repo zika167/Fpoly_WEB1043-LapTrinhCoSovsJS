@@ -60,12 +60,12 @@
         transform 0.1s;
       outline: none;
     }
-    button:enabled:hover {
+    button:not(.restart-btn):enabled:hover {
       background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
       box-shadow: 0 8px 24px rgba(102,126,234,0.18);
       transform: scale(1.07);
     }
-    button[disabled] {
+    button:not(.restart-btn)[disabled] {
       opacity: 0.7;
       cursor: not-allowed;
       box-shadow: none;
@@ -80,9 +80,10 @@
       text-shadow: 0 2px 8px #fed6e333;
     }
     .restart-btn {
+      width: 400px;
       margin-top: 30px;
       padding: 12px 30px;
-      font-size: 1.1rem;
+      font-size: 1.6rem;
       font-weight: 600;
       background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
       color: white;
@@ -91,6 +92,10 @@
       cursor: pointer;
       transition: all 0.3s ease;
       box-shadow: 0 5px 15px rgba(78,205,196,0.3);
+    }
+    .restart-btn-text {
+      margin: 0;
+      padding: 0 10px;
     }
     .restart-btn:hover {
       transform: translateY(-2px);
@@ -113,7 +118,7 @@
         padding: 20px 5px 15px 5px;
         max-width: 98vw;
       }
-      button {
+      button:not(.restart-btn) {
         width: 60px;
         height: 60px;
         font-size: 1.5rem;
@@ -142,7 +147,7 @@
         <td><button onclick="mark(8)"></button></td>
       </tr>
     </table>
-    <button class="restart-btn" onclick="restartGame()">�� Chơi lại</button>
+    <button class="restart-btn" onclick="restartGame()"><p class="restart-btn-text">🔄 Chơi lại</p></button>
   </div>
   <script>
     var flag = true;  // true = X, false = O
@@ -173,6 +178,10 @@
         gameEnded = true;
         setTimeout(function() {
           alert((flag ? 'X' : 'O') + " thắng!");
+          // Tự động reset game sau khi thông báo thắng
+          setTimeout(function() {
+            restartGame();
+          }, 500);
         }, 100);
         return;
       }
@@ -183,6 +192,10 @@
         gameEnded = true;
         setTimeout(function() {
           alert("Hòa!");
+          // Tự động reset game sau khi thông báo hòa
+          setTimeout(function() {
+            restartGame();
+          }, 500);
         }, 100);
         return;
       }
@@ -225,8 +238,8 @@
       gameBoard = ['', '', '', '', '', '', '', '', ''];
       gameEnded = false;
 
-      // Reset tất cả buttons
-      var buttons = document.getElementsByTagName("button");
+      // Reset tất cả buttons game (không bao gồm nút restart)
+      var buttons = document.querySelectorAll("table button");
       for (var i = 0; i < buttons.length; i++) {
         buttons[i].innerHTML = '';
         buttons[i].removeAttribute("disabled");

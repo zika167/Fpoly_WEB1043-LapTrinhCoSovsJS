@@ -90,21 +90,47 @@
       flex-wrap: wrap;
     }
 
-    .rollover-img {
-      width: 200px;
-      height: 200px;
-      object-fit: cover;
+    .rollover-container {
+      position: relative;
+      width: 400px;
+      height: 400px;
       border-radius: 15px;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
       cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .rollover-img:hover {
+    .rollover-container:hover {
       transform: translateY(-10px) scale(1.05);
-      filter: brightness(1.2) contrast(1.1);
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
       outline: 4px solid #667eea;
+    }
+
+    .rollover-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.7s ease;
+    }
+
+    .rollover-img.normal {
+      opacity: 1;
+    }
+
+    .rollover-img.hover {
+      opacity: 0;
+    }
+
+    .rollover-container:hover .rollover-img.normal {
+      opacity: 0;
+    }
+
+    .rollover-container:hover .rollover-img.hover {
+      opacity: 1;
     }
 
     /* Slideshow */
@@ -264,7 +290,7 @@
         gap: 20px;
       }
       
-      .rollover-img {
+      .rollover-container {
         width: 150px;
         height: 150px;
       }
@@ -299,8 +325,10 @@
         <p>Di chuyển chuột vào hình ảnh để xem hiệu ứng!</p>
       </div>
       <div class="rollover-images">
-        <img src="img/meme-hinhnguoi-doiTinhToanCaiDa.jpeg" class="rollover-img" alt="Bé 1">
-        <img src="img/meme-hinhNguoi-mayVuaNoiGi.jpeg" class="rollover-img" alt="Bé 2">
+        <div class="rollover-container">
+          <img src="img/meme-hinhnguoi-doiTinhToanCaiDa.jpeg" class="rollover-img normal" alt="Bé 1">
+          <img src="img/meme-hinhNguoi-mayVuaNoiGi.jpeg" class="rollover-img hover" alt="Bé 2">
+        </div>
       </div>
     </div>
 
