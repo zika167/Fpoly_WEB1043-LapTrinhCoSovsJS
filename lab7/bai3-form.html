@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 3 - Form Submission</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f0f0f0;
+        }
+        
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        input[type="text"]:focus, input[type="number"]:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+        }
+        
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        .instructions {
+            text-align: center;
+            margin: 20px;
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bài 3: Form Submission</h1>
+    <div class="instructions">
+        <p>Điền thông tin và submit form để xem validation và chuyển hướng</p>
+    </div>
+    
+    <div class="form-container">
+        <form id="myForm" action="anotherpage.html" method="get" onsubmit="return validateForm()">
+            <div class="form-group">
+                <label for="firstName">First name:</label>
+                <input type="text" id="firstName" name="firstName" placeholder="Nhập tên">
+                <div class="error" id="firstNameError">Need a first name!!</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="lastName">Last name:</label>
+                <input type="text" id="lastName" name="lastName" placeholder="Nhập họ">
+                <div class="error" id="lastNameError">Need a last name!!</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="number" id="age" name="age" placeholder="Nhập tuổi">
+                <div class="error" id="ageError">Need a valid age!!</div>
+            </div>
+            
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        function validateForm() {
+            let isValid = true;
+            
+            // Reset error messages
+            document.querySelectorAll('.error').forEach(error => {
+                error.style.display = 'none';
+            });
+            
+            // Validate first name
+            const firstName = document.getElementById('firstName').value.trim();
+            if (firstName.length === 0) {
+                document.getElementById('firstNameError').style.display = 'block';
+                isValid = false;
+            }
+            
+            // Validate last name
+            const lastName = document.getElementById('lastName').value.trim();
+            if (lastName.length === 0) {
+                document.getElementById('lastNameError').style.display = 'block';
+                isValid = false;
+            }
+            
+            // Validate age
+            const age = document.getElementById('age').value;
+            if (age === '' || isNaN(age) || parseInt(age) <= 0) {
+                document.getElementById('ageError').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (isValid) {
+                console.log('Form is valid, submitting...');
+                return true; // Allow form submission
+            } else {
+                console.log('Form validation failed');
+                return false; // Prevent form submission
+            }
+        }
+        
+        // Real-time validation
+        document.getElementById('firstName').addEventListener('blur', function() {
+            if (this.value.trim().length === 0) {
+                document.getElementById('firstNameError').style.display = 'block';
+            } else {
+                document.getElementById('firstNameError').style.display = 'none';
+            }
+        });
+        
+        document.getElementById('lastName').addEventListener('blur', function() {
+            if (this.value.trim().length === 0) {
+                document.getElementById('lastNameError').style.display = 'block';
+            } else {
+                document.getElementById('lastNameError').style.display = 'none';
+            }
+        });
+        
+        document.getElementById('age').addEventListener('blur', function() {
+            if (this.value === '' || isNaN(this.value) || parseInt(this.value) <= 0) {
+                document.getElementById('ageError').style.display = 'block';
+            } else {
+                document.getElementById('ageError').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html> 

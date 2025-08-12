@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 1 - Drag & Drop Element</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f0f0f0;
+        }
+        
+        .container {
+            width: 300px;
+            height: 200px;
+            border: 2px solid #333;
+            margin: 20px auto;
+            position: relative;
+        }
+        
+        .section {
+            width: 100%;
+            height: 50%;
+            border-bottom: 1px solid #333;
+            position: relative;
+            background-color: #fff;
+        }
+        
+        .section:last-child {
+            border-bottom: none;
+        }
+        
+        .section-number {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            font-weight: bold;
+            color: #666;
+        }
+        
+        .draggable {
+            width: 120px;
+            height: 40px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            line-height: 40px;
+            cursor: move;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            border-radius: 5px;
+            user-select: none;
+        }
+        
+        .draggable.dragging {
+            opacity: 0.5;
+            z-index: 1000;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        
+        .instructions {
+            text-align: center;
+            margin: 20px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bài 1: Drag & Drop Element</h1>
+    <div class="instructions">
+        <p>Kéo thả element "Drag Me Please!" giữa 2 phần của container</p>
+    </div>
+    
+    <div class="container" id="container">
+        <div class="section" id="section1">
+            <div class="section-number">1</div>
+            <div class="draggable" id="draggable" draggable="true">
+                Drag Me Please!
+            </div>
+        </div>
+        <div class="section" id="section2">
+            <div class="section-number">2</div>
+        </div>
+    </div>
+
+    <script>
+        const draggable = document.getElementById('draggable');
+        const sections = document.querySelectorAll('.section');
+        
+        // Sự kiện khi bắt đầu kéo
+        draggable.addEventListener('dragstart', (e) => {
+            draggable.classList.add('dragging');
+            e.dataTransfer.setData('text/plain', draggable.id);
+        });
+        
+        // Sự kiện khi kết thúc kéo
+        draggable.addEventListener('dragend', () => {
+            draggable.classList.remove('dragging');
+        });
+        
+        // Sự kiện cho các section
+        sections.forEach(section => {
+            section.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                section.style.backgroundColor = '#e8f5e8';
+            });
+            
+            section.addEventListener('dragleave', () => {
+                section.style.backgroundColor = '#fff';
+            });
+            
+            section.addEventListener('drop', (e) => {
+                e.preventDefault();
+                section.style.backgroundColor = '#fff';
+                
+                const draggedElement = document.getElementById(e.dataTransfer.getData('text/plain'));
+                if (draggedElement) {
+                    section.appendChild(draggedElement);
+                    // Đặt lại vị trí của element trong section mới
+                    draggedElement.style.top = '20px';
+                    draggedElement.style.left = '20px';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

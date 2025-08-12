@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>lab83.html – Custom HTML5 Video Player</title>
+        <style>
+            body {
+                font-family: system-ui, Segoe UI, Roboto, Arial, sans-serif;
+                background: #f5f7ff;
+                margin: 0;
+                padding: 24px;
+            }
+            .wrap {
+                max-width: 860px;
+                margin: 0 auto;
+            }
+            h1 {
+                text-align: center;
+                margin: 12px 0 24px;
+                font-size: 28px;
+            }
+            .player {
+                background: #000;
+                border-radius: 12px;
+                padding: 14px;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+                position: relative;
+            }
+            video {
+                width: 100%;
+                border-radius: 8px;
+                border: 4px solid #08d;
+                display: block;
+                background: #111;
+            }
+            .controls {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-top: 10px;
+            }
+            .btn {
+                padding: 8px 12px;
+                border: none;
+                border-radius: 8px;
+                background: #222;
+                color: #fff;
+                cursor: pointer;
+            }
+            .btn:hover {
+                background: #333;
+            }
+            .btn.alt {
+                background: #0ea5e9;
+            }
+            .btn.danger {
+                background: #ef4444;
+            }
+            
+            /* Thêm CSS cho thông báo âm lượng */
+            .volume-notification {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(0, 0, 0, 0.8);
+                color: white;
+                padding: 15px 25px;
+                border-radius: 10px;
+                font-size: 18px;
+                font-weight: bold;
+                display: none;
+                z-index: 100;
+                backdrop-filter: blur(5px);
+            }
+            
+            .volume-notification.show {
+                display: block;
+                animation: fadeInOut 1.5s ease-in-out;
+            }
+            
+            @keyframes fadeInOut {
+                0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+                30% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+                70% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+                100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="wrap">
+            <h1>Custom HTML5 Video Player</h1>
+            <div class="player">
+                <video
+                    id="video"
+                    src="https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"></video>
+                <!-- Thêm thông báo âm lượng -->
+                <div id="volumeNotification" class="volume-notification"></div>
+                <div class="controls">
+                    <button class="btn" onclick="togglePlay()">Play/Pause</button>
+                    <button class="btn danger" onclick="stopVideo()">Stop</button>
+                    <button class="btn" onclick="replay()">Replay</button>
+                    <button class="btn alt" onclick="volUp()">Volume (+)</button>
+                    <button class="btn alt" onclick="volDown()">Volume (-)</button>
+                    <button class="btn" onclick="toggleMute()">Mute/Unmute</button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const v = document.getElementById("video");
+            const volumeNotification = document.getElementById("volumeNotification");
+            
+            // Hàm hiển thị thông báo
+            function showVolumeNotification(message) {
+                volumeNotification.textContent = message;
+                volumeNotification.classList.remove("show");
+                // Dùng setTimeout để reset animation
+                setTimeout(() => {
+                    volumeNotification.classList.add("show");
+                }, 10);
+                
+                // Tự động ẩn sau 1.5 giây
+                setTimeout(() => {
+                    volumeNotification.classList.remove("show");
+                }, 1500);
+            }
+            
+            function togglePlay() {
+                v.paused ? v.play() : v.pause();
+            }
+            function stopVideo() {
+                v.pause();
+                v.currentTime = 0;
+            }
+            function replay() {
+                v.currentTime = 0;
+                v.play();
+            }
+            function volUp() {
+                const oldVolume = v.volume;
+                v.volume = Math.min(1, v.volume + 0.1);
+                const newVolume = Math.round(v.volume * 100);
+                showVolumeNotification(`🔊 Âm lượng: ${newVolume}%`);
+            }
+            function volDown() {
+                const oldVolume = v.volume;
+                v.volume = Math.max(0, v.volume - 0.1);
+                const newVolume = Math.round(v.volume * 100);
+                showVolumeNotification(`🔉 Âm lượng: ${newVolume}%`);
+            }
+            function toggleMute() {
+                v.muted = !v.muted;
+                const volume = Math.round(v.volume * 100);
+                if (v.muted) {
+                    showVolumeNotification("🔇 Đã tắt tiếng");
+                } else {
+                    showVolumeNotification(`🔊 Bật tiếng - Âm lượng: ${volume}%`);
+                }
+            }
+        </script>
+    </body>
+</html>

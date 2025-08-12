@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>lab84.html – Countdown Clock</title>
+        <style>
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                min-height: 100vh;
+                margin: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+            }
+
+            .container {
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                border-radius: 20px;
+                padding: 40px;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+                max-width: 600px;
+                width: 100%;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
+
+            .header {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+
+            .header h1 {
+                color: #333;
+                font-size: 32px;
+                margin-bottom: 10px;
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            .input-section {
+                background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+                padding: 25px;
+                border-radius: 15px;
+                margin-bottom: 30px;
+                box-shadow: 0 10px 20px rgba(168, 237, 234, 0.3);
+            }
+
+            .input-row {
+                display: flex;
+                gap: 15px;
+                align-items: end;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .input-group {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .input-group label {
+                font-weight: 600;
+                color: #333;
+                margin-bottom: 8px;
+                font-size: 14px;
+            }
+
+            input {
+                padding: 12px 15px;
+                font-size: 16px;
+                border: 2px solid #e1e5e9;
+                border-radius: 10px;
+                background: white;
+                transition: all 0.3s ease;
+                outline: none;
+                text-align: center;
+                min-width: 120px;
+            }
+
+            input:focus {
+                border-color: #667eea;
+                box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            }
+
+            .set-btn {
+                padding: 12px 20px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                border: none;
+                border-radius: 10px;
+                cursor: pointer;
+                font-weight: 600;
+                transition: all 0.3s ease;
+                box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            }
+
+            .set-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+            }
+
+            .clock {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                border-radius: 20px;
+                padding: 30px;
+                text-align: center;
+                box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+                color: white;
+            }
+
+            .clock-title {
+                font-size: 18px;
+                margin-bottom: 20px;
+                opacity: 0.9;
+            }
+
+            .time-display {
+                display: flex;
+                justify-content: center;
+                gap: 15px;
+                flex-wrap: wrap;
+            }
+
+            .time-unit {
+                background: rgba(0, 0, 0, 0.3);
+                border-radius: 15px;
+                padding: 20px 15px;
+                min-width: 80px;
+                backdrop-filter: blur(5px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .time-number {
+                display: block;
+                font-size: 28px;
+                font-weight: bold;
+                background: linear-gradient(135deg, #ff6b6b, #feca57);
+                padding: 10px 15px;
+                border-radius: 10px;
+                margin-bottom: 8px;
+                color: white;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            }
+
+            .time-label {
+                font-size: 14px;
+                font-weight: 600;
+                opacity: 0.9;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+
+            .expired {
+                background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+                animation: pulse 2s infinite;
+            }
+
+            @keyframes pulse {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.02); }
+            }
+
+            .status-message {
+                text-align: center;
+                margin-top: 20px;
+                padding: 15px;
+                border-radius: 10px;
+                font-weight: 600;
+                display: none;
+            }
+
+            .status-message.show {
+                display: block;
+            }
+
+            .status-message.expired {
+                background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+                color: white;
+                animation: pulse 2s infinite;
+            }
+
+            @media (max-width: 640px) {
+                .container {
+                    padding: 25px;
+                    margin: 10px;
+                }
+                
+                .input-row {
+                    flex-direction: column;
+                    gap: 20px;
+                }
+                
+                .time-display {
+                    gap: 10px;
+                }
+                
+                .time-unit {
+                    min-width: 70px;
+                    padding: 15px 10px;
+                }
+                
+                .time-number {
+                    font-size: 24px;
+                    padding: 8px 12px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>⏰ Countdown Clock</h1>
+            </div>
+
+            <div class="input-section">
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Ngày</label>
+                        <input type="date" id="endDate" />
+                    </div>
+                    <div class="input-group">
+                        <label>Giờ</label>
+                        <input type="time" id="endTime" value="23:59" />
+                    </div>
+                    <div class="input-group">
+                        <button class="set-btn" onclick="setCountdown()">Đặt đếm ngược</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clock" id="clock">
+                <div class="clock-title">Thời gian còn lại</div>
+                <div class="time-display">
+                    <div class="time-unit">
+                        <span class="time-number days">0</span>
+                        <div class="time-label">Ngày</div>
+                    </div>
+                    <div class="time-unit">
+                        <span class="time-number hours">0</span>
+                        <div class="time-label">Giờ</div>
+                    </div>
+                    <div class="time-unit">
+                        <span class="time-number minutes">0</span>
+                        <div class="time-label">Phút</div>
+                    </div>
+                    <div class="time-unit">
+                        <span class="time-number seconds">0</span>
+                        <div class="time-label">Giây</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="status-message" id="statusMessage">
+                🎉 Thời gian đã hết! 🎉
+            </div>
+        </div>
+
+        <script>
+            const endDateInput = document.getElementById('endDate');
+            const endTimeInput = document.getElementById('endTime');
+            const clock = document.getElementById('clock');
+            const statusMessage = document.getElementById('statusMessage');
+            let timeInterval;
+            let timeStop = true;
+
+            // Khôi phục dữ liệu đã lưu
+            const savedDate = localStorage.getItem('countdownDate');
+            const savedTime = localStorage.getItem('countdownTime');
+            if (savedDate && savedTime) {
+                endDateInput.value = savedDate;
+                endTimeInput.value = savedTime;
+                startClock(new Date(savedDate + 'T' + savedTime));
+            }
+
+            function setCountdown() {
+                if (!endDateInput.value) {
+                    alert('Vui lòng chọn ngày!');
+                    return;
+                }
+
+                clearInterval(timeInterval);
+                const dateTime = endDateInput.value + 'T' + endTimeInput.value;
+                const targetDate = new Date(dateTime);
+                
+                // Kiểm tra ngày hợp lệ
+                if (targetDate <= new Date()) {
+                    alert('Vui lòng chọn thời gian trong tương lai!');
+                    return;
+                }
+
+                // Lưu vào localStorage
+                localStorage.setItem('countdownDate', endDateInput.value);
+                localStorage.setItem('countdownTime', endTimeInput.value);
+
+                startClock(targetDate);
+                timeStop = true;
+                statusMessage.classList.remove('show');
+                clock.classList.remove('expired');
+            }
+
+            function timeLeft(targetDate) {
+                const now = new Date();
+                const timeDiff = targetDate.getTime() - now.getTime();
+                
+                if (timeDiff <= 0) {
+                    return { total: 0, days: 0, hours: 0, minutes: 0, seconds: 0 };
+                }
+
+                const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+                return { total: timeDiff, days, hours, minutes, seconds };
+            }
+
+            function startClock(targetDate) {
+                function updateDisplay() {
+                    const timeRemaining = timeLeft(targetDate);
+
+                    // Cập nhật hiển thị
+                    document.querySelector('.days').textContent = timeRemaining.days;
+                    document.querySelector('.hours').textContent = timeRemaining.hours;
+                    document.querySelector('.minutes').textContent = timeRemaining.minutes;
+                    document.querySelector('.seconds').textContent = timeRemaining.seconds;
+
+                    // Kiểm tra hết thời gian
+                    if (timeRemaining.total <= 0) {
+                        clearInterval(timeInterval);
+                        clock.classList.add('expired');
+                        statusMessage.classList.add('show', 'expired');
+                        timeStop = false;
+                        
+                        // Xóa dữ liệu đã lưu
+                        localStorage.removeItem('countdownDate');
+                        localStorage.removeItem('countdownTime');
+                    }
+                }
+
+                updateDisplay();
+                if (timeStop) {
+                    timeInterval = setInterval(updateDisplay, 1000);
+                }
+            }
+
+            // Đặt ngày mặc định là ngày mai
+            if (!endDateInput.value) {
+                const tomorrow = new Date();
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                endDateInput.value = tomorrow.toISOString().split('T')[0];
+            }
+        </script>
+    </body>
+</html>

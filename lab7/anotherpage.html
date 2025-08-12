@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Another Page - Form Data Processing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f0f0f0;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        .data-display {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        
+        .data-item {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: white;
+            border-left: 4px solid #4CAF50;
+            border-radius: 3px;
+        }
+        
+        .data-label {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .data-value {
+            color: #666;
+            margin-left: 10px;
+        }
+        
+        .instructions {
+            text-align: center;
+            margin: 20px;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .console-info {
+            background-color: #e8f5e8;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .back-button {
+            background-color: #2196F3;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        
+        .back-button:hover {
+            background-color: #1976D2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Another Page - Xử lý dữ liệu Form</h1>
+        
+        <div class="instructions">
+            <p>Dữ liệu từ form đã được xử lý và hiển thị bên dưới</p>
+        </div>
+        
+        <div class="console-info">
+            <strong>Lưu ý:</strong> Mở Developer Console (F12) để xem thông tin chi tiết về dữ liệu được xử lý.
+        </div>
+        
+        <div class="data-display" id="dataDisplay">
+            <h3>Dữ liệu nhận được:</h3>
+            <div id="dataContent">
+                <!-- Dữ liệu sẽ được hiển thị ở đây -->
+            </div>
+        </div>
+        
+        <a href="bai3-form.html" class="back-button">Quay lại Form</a>
+    </div>
+
+    <script>
+        // Lấy query string từ URL
+        let q = window.location.search;
+        let params = new URLSearchParams(q);
+        
+        // Hiển thị dữ liệu trong console và alert
+        let dataContent = document.getElementById('dataContent');
+        
+        for (let p of params) {
+            console.log(p);
+            alert(p);
+            
+            // Hiển thị dữ liệu trên trang
+            let dataItem = document.createElement('div');
+            dataItem.className = 'data-item';
+            dataItem.innerHTML = `
+                <span class="data-label">${p[0]}:</span>
+                <span class="data-value">${p[1]}</span>
+            `;
+            dataContent.appendChild(dataItem);
+        }
+        
+        // Nếu không có dữ liệu
+        if (params.size === 0) {
+            dataContent.innerHTML = '<p style="color: #666; font-style: italic;">Không có dữ liệu nào được truyền.</p>';
+        }
+        
+        // Commented code như trong hướng dẫn
+        // let name = params.get("name");
+        // console.log(name);
+    </script>
+</body>
+</html> 

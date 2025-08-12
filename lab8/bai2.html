@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>lab82.html – Geolocation</title>
+        <style>
+            body {
+                font-family: system-ui, Segoe UI, Roboto, Arial, sans-serif;
+                display: grid;
+                place-items: center;
+                height: 100vh;
+                margin: 0;
+                background: #f5f7ff;
+            }
+            .card {
+                background: #fff;
+                padding: 28px;
+                border-radius: 14px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+                width: min(520px, 92vw);
+            }
+            h1 {
+                margin: 0 0 12px;
+            }
+            button {
+                padding: 10px 16px;
+                border: none;
+                background: #4f46e5;
+                color: #fff;
+                border-radius: 10px;
+                font-weight: 600;
+                cursor: pointer;
+            }
+            button:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+            }
+            .result {
+                margin-top: 16px;
+                padding: 14px;
+                border: 1px solid #eef1f6;
+                border-radius: 10px;
+                background: #fafbff;
+                white-space: pre-line;
+            }
+            .muted {
+                color: #666;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="card">
+            <h1>Geolocation</h1>
+            <p>Nhấn nút để lấy toạ độ hiện tại.</p>
+            <button id="btn">Try It</button>
+            <div id="out" class="result muted">Chưa có dữ liệu.</div>
+        </div>
+
+        <script>
+            const btn = document.getElementById("btn");
+            const out = document.getElementById("out");
+
+            function show(msg) {
+                out.textContent = msg;
+                out.classList.remove("muted");
+            }
+            function showErr(msg) {
+                out.textContent = msg;
+                out.classList.remove("muted");
+            }
+
+            btn.addEventListener("click", () => {
+                if (!("geolocation" in navigator)) {
+                    showErr("Trình duyệt không hỗ trợ Geolocation.");
+                    return;
+                }
+                btn.disabled = true;
+                btn.textContent = "Đang lấy vị trí...";
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => {
+                        const { latitude, longitude, accuracy } = pos.coords;
+                        show(
+                            `Latitude: ${latitude}\nLongitude: ${longitude}\nAccuracy: ±${Math.round(
+                                accuracy
+                            )}m`
+                        );
+                        btn.disabled = false;
+                        btn.textContent = "Try It";
+                    },
+                    (err) => {
+                        showErr("Không thể lấy vị trí: " + err.message);
+                        btn.disabled = false;
+                        btn.textContent = "Try It";
+                    },
+                    { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+                );
+            });
+        </script>
+    </body>
+</html>
