@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Final Test - Slider & Đăng nhập</title>
+    <style>
+      /* Reset đơn giản */
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #222;
+        background: #f5f6fa;
+      }
+
+      .container {
+        max-width: 980px;
+        margin: 24px auto 60px;
+        padding: 0 16px;
+      }
+
+      h2 {
+        margin: 16px 0 12px;
+        font-size: 22px;
+      }
+
+      /* 1) Slider */
+      .slider {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 6;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .slider img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: opacity 280ms ease;
+        opacity: 1;
+        display: block;
+      }
+
+      .slider img.is-fading { opacity: 0; }
+
+      .slider-controls {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .btn {
+        padding: 6px 12px;
+        border: 1px solid #bdbdbd;
+        background: #fff;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+
+      .btn:hover { background: #f0f0f0; }
+
+      /* 2) Form đăng nhập */
+      .card {
+        width: 100%;
+        max-width: 520px;
+        margin: 22px auto 0;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 18px 16px 20px;
+      }
+
+      .card h3 {
+        text-align: center;
+        margin: 0 0 14px;
+        font-size: 20px;
+      }
+
+      .field { margin-bottom: 12px; }
+      .field label {
+        display: block;
+        font-size: 14px;
+        margin-bottom: 6px;
+      }
+      .field input {
+        width: 100%;
+        padding: 8px 10px;
+        border: 1px solid #cfcfcf;
+        border-radius: 4px;
+        outline: none;
+      }
+      .error-text {
+        margin-top: 6px;
+        color: #d32f2f;
+        font-size: 13px;
+        min-height: 16px;
+      }
+
+      .action {
+        display: flex;
+        justify-content: center;
+        margin-top: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>1) Slider ảnh (nhấn Prev/Next để chuyển)</h2>
+      <div class="slider" aria-label="Trình chiếu hình ảnh">
+        <img id="sliderImage" src="images/img1.png" alt="Ảnh trình chiếu" />
+      </div>
+      <div class="slider-controls">
+        <button class="btn" id="btnPrev" type="button">prev</button>
+        <button class="btn" id="btnNext" type="button">next</button>
+      </div>
+
+      <h2 style="margin-top: 40px;">2) Form đăng nhập</h2>
+      <form id="loginForm" class="card" novalidate>
+        <h3>Đăng nhập</h3>
+        <div class="field">
+          <label for="username">User Name</label>
+          <input id="username" name="username" type="text" placeholder="User Name" />
+          <div class="error-text" id="err-username"></div>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="Email" />
+          <div class="error-text" id="err-email"></div>
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" placeholder="Nhập Password" />
+          <div class="error-text" id="err-password"></div>
+        </div>
+        <div class="action">
+          <button class="btn" type="submit">Đăng nhập</button>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      // 1) Slider logic
+      const sliderImageElement = document.getElementById('sliderImage');
+      const images = [
+        'images/img1.png',
+        'images/img2.png',
+        'images/img3.png',
+      ];
+      let currentImageIndex = 0;
+
+      function showImageByIndex(nextIndex) {
+        if (nextIndex < 0) nextIndex = images.length - 1;
+        if (nextIndex >= images.length) nextIndex = 0;
+
+        sliderImageElement.classList.add('is-fading');
+        const onFadeOutFinished = () => {
+          sliderImageElement.removeEventListener('transitionend', onFadeOutFinished);
+          sliderImageElement.src = images[nextIndex];
+          // Đợi ảnh load xong rồi fade-in
+          if (sliderImageElement.complete) {
+            requestAnimationFrame(() => sliderImageElement.classList.remove('is-fading'));
+          } else {
+            sliderImageElement.onload = () => sliderImageElement.classList.remove('is-fading');
+          }
+          currentImageIndex = nextIndex;
+        };
+        sliderImageElement.addEventListener('transitionend', onFadeOutFinished);
+      }
+
+      document.getElementById('btnPrev').addEventListener('click', () => {
+        showImageByIndex(currentImageIndex - 1);
+      });
+      document.getElementById('btnNext').addEventListener('click', () => {
+        showImageByIndex(currentImageIndex + 1);
+      });
+
+      // 2) Đăng nhập
+      const defaultUser = {
+        user: 'u1',
+        email: 'u1@gmail.com',
+        password: '123456',
+      };
+
+      const form = document.getElementById('loginForm');
+      const usernameInput = document.getElementById('username');
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+
+      const errUser = document.getElementById('err-username');
+      const errEmail = document.getElementById('err-email');
+      const errPassword = document.getElementById('err-password');
+
+      function clearErrors() {
+        errUser.textContent = '';
+        errEmail.textContent = '';
+        errPassword.textContent = '';
+      }
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        clearErrors();
+
+        const username = usernameInput.value.trim();
+        const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
+
+        let isValid = true;
+        if (!username) { errUser.textContent = 'Vui lòng nhập User Name'; isValid = false; }
+        if (!email) { errEmail.textContent = 'Vui lòng nhập Email'; isValid = false; }
+        if (!password) { errPassword.textContent = 'Vui lòng nhập Password'; isValid = false; }
+
+        if (!isValid) return;
+
+        if (username === defaultUser.user && email === defaultUser.email && password === defaultUser.password) {
+          alert('Đăng nhập thành công');
+        } else {
+          alert('Đăng nhập thất bại');
+        }
+      });
+    </script>
+  </body>
+  </html>
+
+
